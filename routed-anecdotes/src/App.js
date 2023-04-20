@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useField } from "./hooks/index";
 import {
   BrowserRouter as Router,
   Routes,
@@ -32,7 +33,12 @@ const Menu = ({ anecdotes, addNew, notification }) => {
         />
         <Route path="/create" element={<CreateNew addNew={addNew} />} />
         <Route path="/about" element={<About />} />
-        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} notification={notification}/>} />
+        <Route
+          path="/"
+          element={
+            <AnecdoteList anecdotes={anecdotes} notification={notification} />
+          }
+        />
       </Routes>
     </>
   );
@@ -40,7 +46,7 @@ const Menu = ({ anecdotes, addNew, notification }) => {
 
 const AnecdoteList = ({ anecdotes, notification }) => (
   <div>
-    <Notification notification={notification}/>
+    <Notification notification={notification} />
     <h2>Anecdotes</h2>
     <ul>
       {!anecdotes && <div>No anecdotes</div>}
@@ -88,53 +94,59 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
-  const [info, setInfo] = useState("");
   const navigate = useNavigate();
+  const { onReset: resetContent, ...content } = useField("text");
+  const { onReset: resetAuthor, ...author } = useField("text");
+  const { onReset: resetInfo, ...info} = useField("text");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(props);
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
     navigate("/");
   };
 
+  const handleReset = (e) => {
+    e.preventDefault()
+    resetContent()
+    resetAuthor()
+    resetInfo()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form >
         <div>
           content
           <input
+            {...content}
             name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
           />
         </div>
         <div>
           author
-          <input
+          <input 
+            {...author}
             name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
           />
         </div>
         <div>
           url for more info
           <input
+            {...info}
             name="info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
           />
         </div>
-        <button type="submit">create</button>
+        <button onClick={handleSubmit}>create</button>
+        <button onClick={handleReset}>reset</button>
       </form>
+      
     </div>
   );
 };
@@ -151,12 +163,10 @@ const Anecdote = ({ anecdotes }) => {
 
 const Notification = ({ notification }) => {
   if (notification === null) {
-    return null
+    return null;
   }
-  return (
-    <div className='success'>{notification}</div>
-  )
-}
+  return <div className="success">{notification}</div>;
+};
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
