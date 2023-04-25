@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useField } from "./hooks/index";
+import { useState } from 'react'
+import { useField } from './hooks/index'
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,12 +7,12 @@ import {
   Link,
   useParams,
   useNavigate,
-} from "react-router-dom";
+} from 'react-router-dom'
 
 const Menu = ({ anecdotes, addNew, notification }) => {
   const padding = {
     paddingRight: 5,
-  };
+  }
   return (
     <>
       <div>
@@ -41,8 +41,8 @@ const Menu = ({ anecdotes, addNew, notification }) => {
         />
       </Routes>
     </>
-  );
-};
+  )
+}
 
 const AnecdoteList = ({ anecdotes, notification }) => (
   <div>
@@ -58,7 +58,7 @@ const AnecdoteList = ({ anecdotes, notification }) => (
         ))}
     </ul>
   </div>
-);
+)
 
 const About = () => (
   <div>
@@ -80,36 +80,36 @@ const About = () => (
       find the best and add more.
     </p>
   </div>
-);
+)
 
 const Footer = () => (
   <div>
     Anecdote app for <a href="https://fullstackopen.com/">Full Stack Open</a>.
-    See{" "}
+    See{' '}
     <a href="https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js">
       https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js
-    </a>{" "}
+    </a>{' '}
     for the source code.
   </div>
-);
+)
 
 const CreateNew = (props) => {
-  const navigate = useNavigate();
-  const { onReset: resetContent, ...content } = useField("text");
-  const { onReset: resetAuthor, ...author } = useField("text");
-  const { onReset: resetInfo, ...info} = useField("text");
+  const navigate = useNavigate()
+  const { onReset: resetContent, ...content } = useField('text')
+  const { onReset: resetAuthor, ...author } = useField('text')
+  const { onReset: resetInfo, ...info } = useField('text')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(props);
+    e.preventDefault()
+    console.log(props)
     props.addNew({
       content: content.value,
       author: author.value,
       info: info.value,
       votes: 0,
-    });
-    navigate("/");
-  };
+    })
+    navigate('/')
+  }
 
   const handleReset = (e) => {
     e.preventDefault()
@@ -121,95 +121,85 @@ const CreateNew = (props) => {
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form >
+      <form>
         <div>
           content
-          <input
-            {...content}
-            name="content"
-          />
+          <input {...content} name="content" />
         </div>
         <div>
           author
-          <input 
-            {...author}
-            name="author"
-          />
+          <input {...author} name="author" />
         </div>
         <div>
           url for more info
-          <input
-            {...info}
-            name="info"
-          />
+          <input {...info} name="info" />
         </div>
         <button onClick={handleSubmit}>create</button>
         <button onClick={handleReset}>reset</button>
       </form>
-      
     </div>
-  );
-};
+  )
+}
 
 const Anecdote = ({ anecdotes }) => {
-  const id = useParams().id;
-  const anecdote = anecdotes.find((a) => a.id === Number(id));
+  const id = useParams().id
+  const anecdote = anecdotes.find((a) => a.id === Number(id))
   return (
     <div>
       <h2>{anecdote.content}</h2>
     </div>
-  );
-};
+  )
+}
 
 const Notification = ({ notification }) => {
   if (notification === null) {
-    return null;
+    return null
   }
-  return <div className="success">{notification}</div>;
-};
+  return <div className="success">{notification}</div>
+}
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
-      content: "If it hurts, do it more often",
-      author: "Jez Humble",
-      info: "https://martinfowler.com/bliki/FrequencyReducesDifficulty.html",
+      content: 'If it hurts, do it more often',
+      author: 'Jez Humble',
+      info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
       id: 1,
     },
     {
-      content: "Premature optimization is the root of all evil",
-      author: "Donald Knuth",
-      info: "http://wiki.c2.com/?PrematureOptimization",
+      content: 'Premature optimization is the root of all evil',
+      author: 'Donald Knuth',
+      info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
       id: 2,
     },
-  ]);
+  ])
 
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
-    anecdote.id = Math.round(Math.random() * 10000);
-    setAnecdotes(anecdotes.concat(anecdote));
+    anecdote.id = Math.round(Math.random() * 10000)
+    setAnecdotes(anecdotes.concat(anecdote))
 
-    setNotification(`a new anecdote "${anecdote.content}" created!`);
+    setNotification(`a new anecdote "${anecdote.content}" created!`)
     setTimeout(() => {
-      setNotification(null);
-    }, 5000);
-  };
+      setNotification(null)
+    }, 5000)
+  }
 
-  const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
+  const anecdoteById = (id) => anecdotes.find((a) => a.id === id)
 
   const vote = (id) => {
-    const anecdote = anecdoteById(id);
+    const anecdote = anecdoteById(id)
 
     const voted = {
       ...anecdote,
       votes: anecdote.votes + 1,
-    };
+    }
 
-    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
-  };
+    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)))
+  }
 
   return (
     <div>
@@ -225,7 +215,7 @@ const App = () => {
       </Router>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
