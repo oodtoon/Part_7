@@ -1,0 +1,32 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+   "title": "weezer",
+   "author": "limpstick",
+   "url": "www.sasdfrs.comzers/fiftyshades",
+   "likes": 7,
+   "userId": "642b377a2c1221821a3c0d4e"
+}
+
+###
+GET http://localhost:3003/api/blogs
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY0MmIzNzdhMmMxMjIxODIxYTNjMGQ0ZSIsImlhdCI6MTY4MDU4MDk5Nn0.aPmL2R2RjKuG1nfABk3xbwB8W503s-3NjhaDbGuaL3I
+
+{
+   "title": "fortnighte", 
+   "author": "wiskers", 
+   "url": ".net.org", 
+   "likes": 45,
+   "user": "696969696969"
+}
+
+###
+DELETE http://localhost:3003/api/blogs/642b98c6e41e440dd1472145
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY0MmIzNzdhMmMxMjIxODIxYTNjMGQ0ZSIsImlhdCI6MTY4MDU4MDk5Nn0.aPmL2R2RjKuG1nfABk3xbwB8W503s-3NjhaDbGuaL3I
+

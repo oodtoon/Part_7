@@ -1,0 +1,13 @@
+.userBlogs-head {
+    margin-left: 150px;
+}
+
+.container {
+    position: relative;
+}
+
+
+.userBlogs {
+    width: 150px;
+    display: inline-block;
+}
