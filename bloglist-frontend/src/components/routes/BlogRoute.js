@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
+import { TextField, Button } from '@mui/material'
 
 //const dummyComments = [
 //  'awesome blog',
@@ -31,7 +32,7 @@ const BlogDetails = (props) => {
     event.preventDefault()
     props.addComment({
       ...blog,
-      comment: comment
+      comment: comment,
     })
     console.log(comment)
     console.log(blog)
@@ -59,20 +60,29 @@ const BlogDetails = (props) => {
           <h2>{blog.title}</h2>
           <div>{blog.url}</div>
           <div>
-            {blog.likes} likes<button onClick={handleLike}>like</button>
+            {blog.likes} likes
+            <Button variant="contained" color="primary" onClick={handleLike}>
+              like
+            </Button>
           </div>
           <div>added by {blog.user.name}</div>
           <div>{props.user !== null && deleteBlog()}</div> <h3>comments</h3>
           <form onSubmit={handleComment}>
-            <input
-              id="comment"
-              type="text"
-              value={comment}
-              name="comment"
-              onChange={(event) => setComment(event.target.value)}
-              placeholder="comment..."
-            />{' '}
-            <button type="submit">add comment</button>
+            <div>
+              <TextField
+                label="comment"
+                id="comment"
+                type="text"
+                value={comment}
+                name="comment"
+                onChange={(event) => setComment(event.target.value)}
+                size="small"
+                margin="normal"
+              />
+            </div>
+            <Button variant="contained" color="primary" type="submit">
+              add comment
+            </Button>
           </form>
           {blog.comments.length > 0 && (
             <>

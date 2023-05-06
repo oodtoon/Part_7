@@ -10,9 +10,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
   NavLink,
-  //useNavigate,
 } from 'react-router-dom'
 
 import './app.css'
@@ -28,12 +26,32 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import UserRoute from './components/routes/UsersRoute'
 import UserBlogs from './components/UserBlogs'
 
+import { Alert, AppBar, Button, IconButton, Toolbar } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#FFFFFF',
+      darker: '#f5deb3 ',
+      contrastText: '#2196F3',
+    }
+
+  },
+})
+
 const Notification = ({ message }) => {
   if (message[0] === '') {
     return null
   }
   const type = message[1] ? 'success' : 'error'
-  return <div className={type}>{message[0]}</div>
+  return (
+    <div>
+      <Alert severity="success" className={type}>
+        {message[0]}
+      </Alert>
+    </div>
+  )
 }
 
 const App = () => {
@@ -62,7 +80,7 @@ const App = () => {
   const newCommentMutation = useMutation(blogService.comment, {
     onSuccess: () => {
       queryClient.invalidateQueries('blogs')
-    }
+    },
   })
 
   const user = useLoginValue()
@@ -182,9 +200,11 @@ const App = () => {
   }
 
   const logoutForm = () => (
-    <button id="log-out" onClick={handleLogout}>
-      log out
-    </button>
+    <ThemeProvider theme={theme}>
+      <Button color="primary" variant="contained" id="log-out" onClick={handleLogout}>
+        log out
+      </Button>
+    </ThemeProvider>
   )
 
   useEffect(() => {
@@ -210,40 +230,39 @@ const App = () => {
     <div>
       <Router>
         <Notification message={message} />
-        {user === null && (
-          <div>
-            <nav className="nav">
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+            ></IconButton>
+            <Button color="inherit">
               <NavLink className="nav-link" to="/">
                 blogs
               </NavLink>
-              {'  '}
+            </Button>
+            <Button>
               <NavLink className="nav-link" to="/users">
                 users
               </NavLink>
-              {'  '}
-              log in to application
-            </nav>
-            <LoginForm
-              username={username}
-              password={password}
-              handleUsernameChange={({ target }) => setUsername(target.value)}
-              handlePasswordChange={({ target }) => setPassword(target.value)}
-              login={handleLogin}
-            />
-          </div>
-        )}
-        {user !== null && (
-          <nav className="nav">
-            <Link className="blogs" to="/">
-              blogs
-            </Link>
-            {'  '}
-            <Link className="users" to="/users">
-              users
-            </Link>
-            {'  '}
-            {user.name} logged in {logoutForm()}
-          </nav>
+            </Button>
+            {user === null && <>log in to application</>}
+            {user !== null && (
+              <>
+                {user.name} logged in <a style={{ marginLeft: '1em' }}></a>{logoutForm()}
+              </>
+            )}
+          </Toolbar>
+        </AppBar>
+        {user === null && (
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            login={handleLogin}
+          />
         )}
 
         <Routes>

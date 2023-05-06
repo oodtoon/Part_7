@@ -1,3 +1,12 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper,
+  Button,
+} from '@mui/material'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -5,13 +14,6 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
   const [showBlogDetails, setBlogDetails] = useState(false)
   const buttonLabel = showBlogDetails ? 'hide' : 'view'
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-  }
   const viewDetails = { display: showBlogDetails ? '' : 'none' }
 
   const toggleVisibility = () => {
@@ -46,25 +48,42 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
   }
 
   return (
-    <div style={blogStyle} className="blog">
-      <span>
-        <Link className="blog" to={`/blogs/${blog.id}`}>
-          {blog.title} - {blog.author}
-        </Link>
-        <button onClick={toggleVisibility}>{buttonLabel}</button>
-      </span>
-      <div style={viewDetails} className="blog-details">
-        <span>{blog.url}</span>
-        <div>
-          {blog.likes}{' '}
-          <button onClick={handleLike} id="like">
-            like
-          </button>
-        </div>
-        <div>{blog.user.name}</div>
-        <div>{user !== null && deleteBlog()}</div>
-      </div>
-    </div>
+    <TableContainer compnent={Paper}>
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell align="left">
+              <div className="blog">
+                <span>
+                  <Link className="blog" to={`/blogs/${blog.id}`}>
+                    {blog.title}
+                  </Link>
+                </span>
+                <div style={viewDetails} className="blog-details">
+                  <span>{blog.url}</span>
+                  <div>
+                    {blog.likes}{' '}
+                    <Button variant="contained" color="primary" onClick={handleLike} id="like">like</Button>
+                  </div>
+                  <div>{blog.user.name}</div>
+                  <div>{user !== null && deleteBlog()}</div>
+                </div>
+              </div>
+            </TableCell>
+            <TableCell align="right">{blog.author}</TableCell>
+            <TableCell align="right">
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={toggleVisibility}
+              >
+                {buttonLabel}
+              </Button>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
   )
 }
 

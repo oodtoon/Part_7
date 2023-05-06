@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { TextField, Button } from '@mui/material'
 
 const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
@@ -22,39 +23,49 @@ const BlogForm = ({ createBlog }) => {
       <h2>Create new blog</h2>
       <form onSubmit={addBlog}>
         <div>
-          title:
-          <input
+          <TextField
+            label="title"
             id="title"
-            type="text"
+            type="title"
             value={title}
             name="title"
             onChange={(event) => setTitle(event.target.value)}
-            placeholder='title'
+            size="small"
+            sx={{ pb: '8px' }}
           />
         </div>
         <div>
-          author:
-          <input
+          <TextField
+            label="author"
             id="author"
-            type="text"
+            type="author"
             value={author}
-            name="title"
-            onChange={(event) => setAuthor(event.target.value)}
-            placeholder='author'
+            name="author"
+            onChange={(event) => setTitle(event.target.value)}
+            size="small"
+            sx={{ pb: '8px' }}
           />
         </div>
         <div>
-          url:
-          <input
+          <TextField
+            label="url"
             id="url"
-            type="text"
+            type="url"
             value={url}
             name="url"
-            onChange={(event) => setUrl(event.target.value)}
-            placeholder='url'
+            onChange={(event) => setTitle(event.target.value)}
+            size="small"
+            sx={{ pb: '8px' }}
           />
         </div>
-        <button id="create-blog" type="submit">create</button>
+        <Button
+          variant="contained"
+          color="primary"
+          id="create-blog"
+          type="submit"
+        >
+          create
+        </Button>
       </form>
     </>
   )
