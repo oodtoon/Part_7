@@ -4,12 +4,14 @@ import loginService from './services/login'
 import userService from './services/users'
 import LoginForm from './components/LoginForm'
 import IndexRoute from './components/routes/IndexRoute'
+import BlogDetails from './components/routes/BlogRoute'
 
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  //Link,
+  Link,
+  NavLink,
   //useNavigate,
 } from 'react-router-dom'
 
@@ -55,6 +57,12 @@ const App = () => {
       queryClient.invalidateQueries('blogs')
       queryClient.invalidateQueries('users')
     },
+  })
+
+  const newCommentMutation = useMutation(blogService.comment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('blogs')
+    }
   })
 
   const user = useLoginValue()
@@ -142,6 +150,14 @@ const App = () => {
     }
   }
 
+  const addComment = async (blog) => {
+    try {
+      newCommentMutation.mutate(blog)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const deleteBlog = async (id) => {
     try {
       deleteBlogMutation.mutate(id)
@@ -192,25 +208,44 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={message} />
-      {user === null && (
-        <div>
-          <p>log in to application </p>
-          <LoginForm
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            login={handleLogin}
-          />
-        </div>
-      )}
-      {user !== null && (
-        <div>
-          {user.name} logged in {logoutForm()}
-        </div>
-      )}
       <Router>
+        <Notification message={message} />
+        {user === null && (
+          <div>
+            <nav className="nav">
+              <NavLink className="nav-link" to="/">
+                blogs
+              </NavLink>
+              {'  '}
+              <NavLink className="nav-link" to="/users">
+                users
+              </NavLink>
+              {'  '}
+              log in to application
+            </nav>
+            <LoginForm
+              username={username}
+              password={password}
+              handleUsernameChange={({ target }) => setUsername(target.value)}
+              handlePasswordChange={({ target }) => setPassword(target.value)}
+              login={handleLogin}
+            />
+          </div>
+        )}
+        {user !== null && (
+          <nav className="nav">
+            <Link className="blogs" to="/">
+              blogs
+            </Link>
+            {'  '}
+            <Link className="users" to="/users">
+              users
+            </Link>
+            {'  '}
+            {user.name} logged in {logoutForm()}
+          </nav>
+        )}
+
         <Routes>
           <Route
             path="/"
@@ -226,7 +261,19 @@ const App = () => {
             }
           />
           <Route path="/users" element={<UserRoute users={users} />} />
-          <Route path="/users/:id" element={<UserBlogs users={users}/>}/>
+          <Route path="/users/:id" element={<UserBlogs users={users} />} />
+          <Route
+            path="/blogs/:id"
+            element={
+              <BlogDetails
+                blogs={blogs}
+                user={user}
+                addLike={addLikeTo}
+                removeBlog={deleteBlog}
+                addComment={addComment}
+              />
+            }
+          />
         </Routes>
       </Router>
     </div>

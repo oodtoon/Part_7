@@ -1,10 +1,12 @@
 const blogsRouter = require("express").Router()
 const Blog = require("../models/blog")
 const User = require("../models/user")
+const Comment = require('../models/comment')
 const jwt = require("jsonwebtoken")
+const ObjectId = require('mongoose').Types.ObjectId;
 
 blogsRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 })
+  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 }).populate('comments')
   response.json(blogs)
 })
 
@@ -31,7 +33,6 @@ blogsRouter.post("/", async (request, response) => {
       user.blogs = user.blogs.concat(savedBlog._id)
       await user.save()
       response.status(201).json(savedBlog)
-      console.log("what is this", decodedToken)
   
     } else { 
       response.status(400).end()
@@ -75,6 +76,28 @@ blogsRouter.put("/:id", async (request, response) => {
   })
   response.status(200)
   response.json(updatedBlog)
+})
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const { comment } = request.body
+  const blogId = request.params.id
+  const blog = await Blog.findById(request.params.id)
+
+  const blogComment = new Comment({
+    comment: comment,
+    blog: blogId 
+  })
+
+    const savedComment = await blogComment.save()
+    blog.comments = blog.comments.concat(savedComment._id)
+    await blog.save()
+    response.status(201).json(savedComment)
+})
+
+blogsRouter.get('/:id/comments', async (request, response) => {
+  const blog = await Comment.find({ blog: new ObjectId(request.params.id) })
+  
+  response.status(201).json(blog)
 })
 
 module.exports = blogsRouter

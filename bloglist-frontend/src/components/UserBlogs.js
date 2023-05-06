@@ -6,7 +6,7 @@ const UserBlogs = (props) => {
     return <h2>User loading...</h2>
   }
   const user = props.users.find((u) => u.id === id)
-  console.log(user)
+
   return (
     <>
       {user && (

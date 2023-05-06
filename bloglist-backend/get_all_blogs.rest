@@ -30,3 +30,10 @@ DELETE http://localhost:3003/api/blogs/642b98c6e41e440dd1472145
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY0MmIzNzdhMmMxMjIxODIxYTNjMGQ0ZSIsImlhdCI6MTY4MDU4MDk5Nn0.aPmL2R2RjKuG1nfABk3xbwB8W503s-3NjhaDbGuaL3I
 
+###
+POST http://localhost:3003/api/blogs/6455b225fff527b412510b03/comments
+Content-Type: application/json
+
+{
+   "comment": "super!"
+}

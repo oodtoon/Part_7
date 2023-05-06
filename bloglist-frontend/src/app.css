@@ -11,3 +11,17 @@
     width: 150px;
     display: inline-block;
 }
+
+.nav {
+    background-color: lightgrey;
+    padding: 0 .5em;
+    margin-bottom: 15px;
+}
+a.nav-link {
+    display: inline-block;
+    line-height: 1.5em;
+    padding: .25em;
+}
+a.active {
+    background-color: wheat;
+}
