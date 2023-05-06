@@ -26,7 +26,7 @@ const BlogForm = ({ createBlog }) => {
           <TextField
             label="title"
             id="title"
-            type="title"
+            type="text"
             value={title}
             name="title"
             onChange={(event) => setTitle(event.target.value)}
@@ -38,10 +38,10 @@ const BlogForm = ({ createBlog }) => {
           <TextField
             label="author"
             id="author"
-            type="author"
+            type="text"
             value={author}
             name="author"
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={(event) => setAuthor(event.target.value)}
             size="small"
             sx={{ pb: '8px' }}
           />
@@ -50,10 +50,10 @@ const BlogForm = ({ createBlog }) => {
           <TextField
             label="url"
             id="url"
-            type="url"
+            type="text"
             value={url}
             name="url"
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={(event) => setUrl(event.target.value)}
             size="small"
             sx={{ pb: '8px' }}
           />

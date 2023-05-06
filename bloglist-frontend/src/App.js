@@ -26,7 +26,14 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import UserRoute from './components/routes/UsersRoute'
 import UserBlogs from './components/UserBlogs'
 
-import { Alert, AppBar, Button, IconButton, Toolbar } from '@mui/material'
+import {
+  Alert,
+  AppBar,
+  Button,
+  Container,
+  IconButton,
+  Toolbar,
+} from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const theme = createTheme({
@@ -35,8 +42,7 @@ const theme = createTheme({
       main: '#FFFFFF',
       darker: '#f5deb3 ',
       contrastText: '#2196F3',
-    }
-
+    },
   },
 })
 
@@ -201,7 +207,12 @@ const App = () => {
 
   const logoutForm = () => (
     <ThemeProvider theme={theme}>
-      <Button color="primary" variant="contained" id="log-out" onClick={handleLogout}>
+      <Button
+        color="primary"
+        variant="contained"
+        id="log-out"
+        onClick={handleLogout}
+      >
         log out
       </Button>
     </ThemeProvider>
@@ -229,7 +240,6 @@ const App = () => {
   return (
     <div>
       <Router>
-        <Notification message={message} />
         <AppBar position="static">
           <Toolbar>
             <IconButton
@@ -250,50 +260,54 @@ const App = () => {
             {user === null && <>log in to application</>}
             {user !== null && (
               <>
-                {user.name} logged in <a style={{ marginLeft: '1em' }}></a>{logoutForm()}
+                {user.name} logged in <a style={{ marginLeft: '1em' }}></a>
+                {logoutForm()}
               </>
             )}
           </Toolbar>
         </AppBar>
-        {user === null && (
-          <LoginForm
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            login={handleLogin}
-          />
-        )}
+        <Notification message={message} />
 
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <IndexRoute
-                blogs={blogs}
-                user={user}
-                addLikeTo={addLikeTo}
-                addBlog={addBlog}
-                deleteBlog={deleteBlog}
-                blogFormRef={blogFormRef}
-              />
-            }
-          />
-          <Route path="/users" element={<UserRoute users={users} />} />
-          <Route path="/users/:id" element={<UserBlogs users={users} />} />
-          <Route
-            path="/blogs/:id"
-            element={
-              <BlogDetails
-                blogs={blogs}
-                user={user}
-                addLike={addLikeTo}
-                removeBlog={deleteBlog}
-                addComment={addComment}
-              />
-            }
-          />
-        </Routes>
+        <Container>
+          {user === null && (
+            <LoginForm
+              username={username}
+              password={password}
+              handleUsernameChange={({ target }) => setUsername(target.value)}
+              handlePasswordChange={({ target }) => setPassword(target.value)}
+              login={handleLogin}
+            />
+          )}
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <IndexRoute
+                  blogs={blogs}
+                  user={user}
+                  addLikeTo={addLikeTo}
+                  addBlog={addBlog}
+                  deleteBlog={deleteBlog}
+                  blogFormRef={blogFormRef}
+                />
+              }
+            />
+            <Route path="/users" element={<UserRoute users={users} />} />
+            <Route path="/users/:id" element={<UserBlogs users={users} />} />
+            <Route
+              path="/blogs/:id"
+              element={
+                <BlogDetails
+                  blogs={blogs}
+                  user={user}
+                  addLike={addLikeTo}
+                  removeBlog={deleteBlog}
+                  addComment={addComment}
+                />
+              }
+            />
+          </Routes>
+        </Container>
       </Router>
     </div>
   )

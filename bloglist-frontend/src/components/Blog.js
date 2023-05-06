@@ -10,6 +10,8 @@ import {
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import '../app.css'
+
 const Blog = ({ blog, addLike, removeBlog, user }) => {
   const [showBlogDetails, setBlogDetails] = useState(false)
   const buttonLabel = showBlogDetails ? 'hide' : 'view'
@@ -52,7 +54,7 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
       <Table>
         <TableBody>
           <TableRow>
-            <TableCell align="left">
+            <TableCell align="left" sx={{ width: 450 }}>
               <div className="blog">
                 <span>
                   <Link className="blog" to={`/blogs/${blog.id}`}>
@@ -70,8 +72,8 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
                 </div>
               </div>
             </TableCell>
-            <TableCell align="right">{blog.author}</TableCell>
-            <TableCell align="right">
+            <TableCell align="left" className='author-cell' sx={{ with: 100 }}>{blog.author}</TableCell>
+            <TableCell align="right" sx={{ width: 150 }}>
               <Button
                 variant="outlined"
                 color="primary"
